@@ -6,8 +6,8 @@ const fetch = require('node-fetch');
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
 app.use(bodyParser.json());
+app.use(cors()); // CORS ekleyin
 
 app.post('/translate', async (req, res) => {
     const { text } = req.body;
@@ -19,12 +19,12 @@ app.post('/translate', async (req, res) => {
     try {
         const apiKey = 'f7a06558-286c-e934-4e53-4eb260b89526'; // Deepl API anahtarınızı buraya ekleyin
 
-        const response = await fetch('https://api.deepl.com/v1/translate', {
+        const response = await fetch('https://api-free.deepl.com/v1/translate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: `auth_key=${apiKey}&text=${encodeURIComponent(text)}&source_lang=EN&target_lang=TR`,
+            body: `auth_key=${apiKey}&text=${encodeURIComponent(text)}&target_lang=TR`,
         });
 
         const data = await response.json();
@@ -42,4 +42,5 @@ app.post('/translate', async (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
 
